@@ -467,8 +467,8 @@ class ktamv:
                     utl.calculate_offset_from_matrix(self.server_url, _v)
                 )
 
-                _offsets[0] = round(_offsets[0], 3)
-                _offsets[1] = round(_offsets[1], 3)
+                _offsets[0] = round(_offsets[0], 4)
+                _offsets[1] = round(_offsets[1], 4)
 
                 self.gcode.respond_info(
                     "*** Nozzle calibration take: "
@@ -487,8 +487,8 @@ class ktamv:
                     + str(round(_offsets[1], 2))
                 )
 
-                # Check if we're not aligned to the center (with 0.02mm tolerance)
-                _center_tolerance = 0.02  # 20 microns tolerance
+                # Check if we're not aligned to the center (with 0.005mm tolerance)
+                _center_tolerance = 0.005  # 5 microns tolerance for maximum precision
                 if abs(_offsets[0]) > _center_tolerance or abs(_offsets[1]) > _center_tolerance:
                     ##############################
                     # Ensure the next move is within the frame
