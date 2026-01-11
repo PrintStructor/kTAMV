@@ -17,11 +17,12 @@ __CV_TIMEOUT = 20
 # Minimum amount of matches to confirm toolhead position after a move
 __CV_MIN_MATCHES = 3 
 # Size of frame to use
-_FRAME_WIDTH = 640
-_FRAME_HEIGHT = 480
+# Target frame size (16:9 aspect ratio - auto-scales detection parameters)
+_FRAME_WIDTH = 1280
+_FRAME_HEIGHT = 720
 
-# FPS to use when running the preview
-__PREVIEW_FPS = 2
+# FPS to use when running the preview (higher = smoother, but more CPU)
+__PREVIEW_FPS = 15
 
 # If the nozzle position is within this many pixels when comparing frames, it's considered a match. Only whole numbers are supported.
 __detection_tolerance = 0

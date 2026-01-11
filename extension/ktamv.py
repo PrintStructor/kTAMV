@@ -7,8 +7,8 @@ import json
 
 
 class ktamv:
-    __FRAME_WIDTH = 640
-    __FRAME_HEIGHT = 480
+    __FRAME_WIDTH = 1280
+    __FRAME_HEIGHT = 720
 
     def __init__(self, config):
         # Load config values
@@ -487,8 +487,9 @@ class ktamv:
                     + str(round(_offsets[1], 2))
                 )
 
-                # Check if we're not aligned to the center
-                if _offsets[0] != 0.0 or _offsets[1] != 0.0:
+                # Check if we're not aligned to the center (with 0.02mm tolerance)
+                _center_tolerance = 0.02  # 20 microns tolerance
+                if abs(_offsets[0]) > _center_tolerance or abs(_offsets[1]) > _center_tolerance:
                     ##############################
                     # Ensure the next move is within the frame
                     ##############################
@@ -517,9 +518,12 @@ class ktamv:
                     _olduv = _uv
                     self.pm.moveRelative(X=_offsets[0], Y=_offsets[1], moveSpeed=1000)
                     continue
-                # finally, we're aligned to the center
-                elif _offsets[0] == 0.0 and _offsets[1] == 0.0:
-                    self.gcode.respond_info("Calibration to nozzle center complete")
+                # finally, we're aligned to the center (within tolerance)
+                else:
+                    self.gcode.respond_info(
+                        "Calibration to nozzle center complete (offset: X%.3f Y%.3f mm)"
+                        % (_offsets[0], _offsets[1])
+                    )
                     self.last_nozzle_center_successful = True
                     return
 
